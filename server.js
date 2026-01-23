@@ -11,6 +11,12 @@ const server = http.createServer((req, res) => {
 
     const html = fs.readFileSync(filePath, 'utf-8')
     res.end(html)
+   } else if (req.url === '/main.css') {
+    res.writeHead(200, {'Content-Type': 'text/css'})
+    const cssPath = path.join(process.cwd(), './public/main.css')
+
+    const css = fs.readFileSync(cssPath, 'utf-8')
+    res.end(css)
    }
 })
 
