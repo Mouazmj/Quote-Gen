@@ -1,8 +1,10 @@
+const apiUrl = 'https://zenquotes.io/api/random';
 const PORT = process.env.PORT || 3000
 
 import http from 'http'
 import fs from 'fs'
 import path from 'path'
+import fetch from 'node-fetch'
 
 const server = http.createServer((req, res) => {
    if (req.url === '/') {
@@ -17,6 +19,12 @@ const server = http.createServer((req, res) => {
 
     const css = fs.readFileSync(cssPath, 'utf-8')
     res.end(css)
+   } else if (req.url === '/index.js') {
+    res.writeHead(200, {'Content-Type': 'application/javascript'})
+    const jsPath = path.join(process.cwd(), './public/index.js')
+
+    const js = fs.readFileSync(jsPath, 'utf-8')
+    res.end(js)
    }
 })
 
