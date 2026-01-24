@@ -1,4 +1,4 @@
-const apiUrl = 'https://api.quotable.io/random';
+const apiUrl = 'https://dummyjson.com/quotes/random';
 const PORT = process.env.PORT || 3000
 
 import http from 'http'
