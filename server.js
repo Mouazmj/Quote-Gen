@@ -1,4 +1,4 @@
-const apiUrl = 'https://zenquotes.io/api/random';
+const apiUrl = 'https://api.quotable.io/random';
 const PORT = process.env.PORT || 3000
 
 import http from 'http'
@@ -27,16 +27,19 @@ const server = http.createServer(async (req, res) => {
     res.end(js)
    } else if (req.url === '/quote') {
     try {
+        console.log('Fetching from:', apiUrl)
         const response = await fetch(apiUrl)
         const data = await response.json()
+        console.log('Got data:', data)
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify(data))
     } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' })
-        res.end(err)
+        console.error('Error in /quote:', err)
+        res.writeHead(500, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ error: 'Error fetching quote' }))
     }
    } else {
-    res.writeHead( { 'Content-Type': 'text/plain' } )
+    res.writeHead( 404, { 'Content-Type': 'text/plain' } )
     res.end('Not found')
    }
 })

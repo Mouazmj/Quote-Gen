@@ -9,4 +9,6 @@ async function getQuote(url) {
     console.log(data)
 }
 
-getQuote(apiUrl)
+newQuote.addEventListener('click', () => {
+    getQuote(apiUrl)
+})
