@@ -6,7 +6,7 @@ import fs from 'fs'
 import path from 'path'
 import fetch from 'node-fetch'
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
    if (req.url === '/') {
     res.writeHead(200, {'Content-Type': 'text/html'})
     const filePath = path.join(process.cwd(), './public/index.html')
@@ -25,6 +25,19 @@ const server = http.createServer((req, res) => {
 
     const js = fs.readFileSync(jsPath, 'utf-8')
     res.end(js)
+   } else if (req.url === '/quote') {
+    try {
+        const response = await fetch(apiUrl)
+        const data = await response.json()
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify(data))
+    } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' })
+        res.end(err)
+    }
+   } else {
+    res.writeHead( { 'Content-Type': 'text/plain' } )
+    res.end('Not found')
    }
 })
 
